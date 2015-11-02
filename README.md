@@ -6,10 +6,12 @@ Requirements
 ------------
 include the default recipe to handle the gem dependencies or include the following in your recipe"
 
+```ruby
 chef_gem 'net-sftp' do
   action :install
   compile_time true
 end
+```
 
 #### packages
 - `net-sftp` - sftp_provider is driven by the net-sftp gem.

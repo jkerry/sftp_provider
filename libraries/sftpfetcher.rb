@@ -1,7 +1,6 @@
 #
-# Author:: Jesse Campbell (<hikeit@gmail.com>)
-# Author:: Lamont Granquist (<lamont@opscode.com>)
-# Copyright:: Copyright (c) 2013 Opscode, Inc.
+# Author:: John Kerry (<John@kerryhouse.net>)
+# Copyright:: Copyright (c)
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");

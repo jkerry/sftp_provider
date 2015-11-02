@@ -1,68 +1,44 @@
 sftp_provider Cookbook
 ======================
-TODO: Enter the cookbook description here.
-
-e.g.
-This cookbook makes your favorite breakfast sandwich.
+This cookbook supplies a provider for the remote_file resource that uses SFTP (driven by the net-sftp gem).
 
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+include the default recipe to handle the gem dependencies or include the following in your recipe"
+
+chef_gem 'net-sftp' do
+  action :install
+  compile_time true
+end
 
 e.g.
 #### packages
-- `toaster` - sftp_provider needs toaster to brown your bagel.
+- `net-sftp` - sftp_provider needs toaster to brown your bagel.
 
 Attributes
 ----------
-TODO: List your cookbook attributes here.
-
-e.g.
-#### sftp_provider::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['sftp_provider']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
+None necessary
 
 Usage
 -----
 #### sftp_provider::default
-TODO: Write usage instructions for each cookbook.
+Include this cookbook as a dependency and utilize the provider.
 
 e.g.
-Just include `sftp_provider` in your node's `run_list`:
+include_recipe 'sftp_provider::default'
 
-```json
-{
-  "name":"my_node",
-  "run_list": [
-    "recipe[sftp_provider]"
-  ]
-}
-```
+remote_file "c:/tmp.txt" do
+  source "sftp://username:password@host/path/from/root/to/file/on/sftp/server"
+  provider  Chef::Provider::File::SFTPRemoteFile
+end
 
 Contributing
 ------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
-
-e.g.
-1. Fork the repository on Github
-2. Create a named feature branch (like `add_component_x`)
-3. Write your change
-4. Write tests for your change (if applicable)
-5. Run the tests, ensuring they all pass
-6. Submit a Pull Request using Github
+Pull requests are accepted. This plugin is currently under initial development and any help is appreciated.
 
 License and Authors
 -------------------
-Authors: TODO: List authors
+Authors:
+* John Kerry
+
+Apache 2.0 License

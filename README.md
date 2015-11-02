@@ -11,9 +11,8 @@ chef_gem 'net-sftp' do
   compile_time true
 end
 
-e.g.
 #### packages
-- `net-sftp` - sftp_provider needs toaster to brown your bagel.
+- `net-sftp` - sftp_provider is driven by the net-sftp gem.
 
 Attributes
 ----------
@@ -25,13 +24,15 @@ Usage
 Include this cookbook as a dependency and utilize the provider.
 
 e.g.
+
+```ruby
 include_recipe 'sftp_provider::default'
 
 remote_file "c:/tmp.txt" do
   source "sftp://username:password@host/path/from/root/to/file/on/sftp/server"
   provider  Chef::Provider::File::SFTPRemoteFile
 end
-
+```
 Contributing
 ------------
 Pull requests are accepted. This plugin is currently under initial development and any help is appreciated.

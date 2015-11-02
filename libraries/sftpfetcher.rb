@@ -26,7 +26,7 @@ class Chef
           when "sftp"
             Chef::Provider::RemoteFile::SFTP.new(uri, new_resource, current_resource)
           else
-            raise ArgumentError, "Invalid uri, sftp supported"
+            raise ArgumentError, "Invalid uri, only sftp supported in the SFTP remote file provider."
           end
         end
 

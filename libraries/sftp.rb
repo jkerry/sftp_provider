@@ -42,10 +42,6 @@ class Chef
           @uri.host
         end
 
-        def port
-          @uri.port
-        end
-
         def user
           if uri.userinfo
             URI.unescape(uri.user)
@@ -62,76 +58,31 @@ class Chef
           end
         end
 
-        def directories
-          parse_path if @directories.nil?
-          @directories
-        end
-
         def filename
           parse_path if @filename.nil?
           @filename
         end
 
         def fetch
-          with_connection do
-            get
-          end
+          get
         end
 
-        def ftp
-          @ftp ||= Net::SFTP.start(hostname, user, :password => pass)
+        def sftp
+          @sftp ||= Net::SFTP.start(hostname, user, :password => pass)
         end
 
         private
-
-        def with_proxy_env
-          saved_socks_env = ENV['SOCKS_SERVER']
-          ENV['SOCKS_SERVER'] = proxy_uri(@uri).to_s
-          yield
-        ensure
-          ENV['SOCKS_SERVER'] = saved_socks_env
-        end
-
-        def with_connection
-          with_proxy_env do
-            connect
-            yield
-          end
-        ensure
-          disconnect
-        end
 
         def validate_path!
           parse_path
         end
 
-        def connect
-        end
-
-        def disconnect
-        end
-
         # Fetches using Net::FTP, returns a Tempfile with the content
         def get
           tempfile = Chef::FileContentManagement::Tempfile.new(@new_resource).tempfile
-          ftp.download!(uri.path, tempfile.path)
+          sftp.download!(uri.path, tempfile.path)
           tempfile.close if tempfile
           tempfile
-        end
-
-        #adapted from buildr/lib/buildr/core/transports.rb via chef/rest/rest_client.rb
-        def proxy_uri(uri)
-          proxy = Chef::Config["ftp_proxy"]
-          proxy = URI.parse(proxy) if String === proxy
-          if Chef::Config["ftp_proxy_user"]
-            proxy.user = Chef::Config["ftp_proxy_user"]
-          end
-          if Chef::Config["ftp_proxy_pass"]
-            proxy.password = Chef::Config["ftp_proxy_pass"]
-          end
-          excludes = Chef::Config[:no_proxy].to_s.split(/\s*,\s*/).compact
-          excludes = excludes.map { |exclude| exclude =~ /:\d+$/ ? exclude : "#{exclude}:*" }
-          return proxy unless excludes.any? { |exclude| File.fnmatch(exclude, "#{host}:#{port}") }
         end
 
         def parse_path

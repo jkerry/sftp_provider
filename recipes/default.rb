@@ -6,9 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-
-
-remote_file "c:\\tmp2.txt" do
-  source "sftp://username:password@host/path/from/root/to/file/on/sftp/server"
-  provider  Chef::Provider::File::SFTPRemoteFile
+chef_gem 'net-sftp' do
+  action :install
+  compile_time true
 end

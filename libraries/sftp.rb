@@ -18,7 +18,11 @@
 
 require 'uri'
 require 'tempfile'
-require 'net/sftp'
+begin
+  require 'net/sftp'
+rescue LoadError => e
+  Chef::Log.warn("Dependency 'net/sftp' not loaded: #{e}")
+end
 require 'chef/provider/remote_file'
 require 'chef/file_content_management/tempfile'
 

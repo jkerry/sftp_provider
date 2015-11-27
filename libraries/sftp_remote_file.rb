@@ -23,7 +23,7 @@ require 'chef/deprecation/warnings'
 class Chef
   class Provider
     class SFTPRemoteFile < Chef::Provider::File
-      provides :remote_file
+      provides (:remote_file) if defined?(provides)
 
       extend Chef::Deprecation::Warnings
       include Chef::Deprecation::Provider::RemoteFile
